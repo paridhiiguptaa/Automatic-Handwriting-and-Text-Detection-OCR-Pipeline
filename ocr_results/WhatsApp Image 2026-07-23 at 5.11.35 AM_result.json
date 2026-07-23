@@ -1,0 +1,198 @@
+{
+  "document_type": "worksheet",
+  "page": 2,
+  "regions": [
+    {
+      "bbox": [
+        0,
+        0,
+        900,
+        854
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "Q.2. Meanings: 1) peeping - looking quickly. 2) go by - pass by. 3) Fill in the blanks by choosing the correct word from the blanks"
+    },
+    {
+      "bbox": [
+        32,
+        750,
+        233,
+        769
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "0"
+    },
+    {
+      "bbox": [
+        0,
+        801,
+        900,
+        852
+      ],
+      "type": "printed",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "Q.3 Fill in the blanks by choosing the correct word from the"
+    },
+    {
+      "bbox": [
+        269,
+        838,
+        739,
+        864
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "0"
+    },
+    {
+      "bbox": [
+        0,
+        851,
+        900,
+        973
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "bracket(green,rainbow)"
+    },
+    {
+      "bbox": [
+        0,
+        941,
+        900,
+        1212
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "1) We can see a rainbow in the sky. 2) The grass is green in colour."
+    },
+    {
+      "bbox": [
+        0,
+        1167,
+        80,
+        1183
+      ],
+      "type": "printed",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "10"
+    },
+    {
+      "bbox": [
+        397,
+        1241,
+        586,
+        1260
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "1.0"
+    },
+    {
+      "bbox": [
+        0,
+        1249,
+        900,
+        1321
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "10"
+    },
+    {
+      "bbox": [
+        356,
+        1311,
+        521,
+        1331
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "1"
+    },
+    {
+      "bbox": [
+        663,
+        1315,
+        862,
+        1330
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "10"
+    },
+    {
+      "bbox": [
+        0,
+        1369,
+        86,
+        1388
+      ],
+      "type": "printed",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "0"
+    },
+    {
+      "bbox": [
+        169,
+        1369,
+        328,
+        1384
+      ],
+      "type": "printed",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "1"
+    },
+    {
+      "bbox": [
+        355,
+        1411,
+        589,
+        1430
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "0"
+    },
+    {
+      "bbox": [
+        0,
+        1411,
+        900,
+        1600
+      ],
+      "type": "handwritten",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "The image shows a close up of a carpet."
+    }
+  ],
+  "overall_confidence": 0.88,
+  "preprocessing_metadata": {
+    "skew_angle_deg": 0.41,
+    "original_shape": [
+      1600,
+      900
+    ],
+    "processed_shape": [
+      1600,
+      900
+    ]
+  }
+}

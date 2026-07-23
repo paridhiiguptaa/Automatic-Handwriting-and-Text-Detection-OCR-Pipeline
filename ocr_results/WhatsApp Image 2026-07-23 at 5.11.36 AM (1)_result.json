@@ -1,0 +1,42 @@
+{
+  "document_type": "worksheet",
+  "page": 3,
+  "regions": [
+    {
+      "bbox": [
+        54,
+        0,
+        290,
+        49
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "1.0"
+    },
+    {
+      "bbox": [
+        0,
+        0,
+        720,
+        1280
+      ],
+      "type": "handwritten",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "1. father wears a tie.\n2. pria wears a helmet.\n3. raul puts an earphone.\n4. rahul puts an earphone.\n5. stomach should be tongue.\n6"
+    }
+  ],
+  "overall_confidence": 0.88,
+  "preprocessing_metadata": {
+    "skew_angle_deg": 0.0,
+    "original_shape": [
+      1280,
+      720
+    ],
+    "processed_shape": [
+      1280,
+      720
+    ]
+  }
+}

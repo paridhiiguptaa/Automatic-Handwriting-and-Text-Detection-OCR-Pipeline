@@ -1,0 +1,54 @@
+{
+  "document_type": "worksheet",
+  "page": 7,
+  "regions": [
+    {
+      "bbox": [
+        512,
+        601,
+        720,
+        615
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "10"
+    },
+    {
+      "bbox": [
+        0,
+        14,
+        720,
+        1280
+      ],
+      "type": "diagram",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "The image displays a hand holding a piece of paper with a drawing of a person. The drawing includes the words \"Name any three uses of our hands.\" The drawing also includes the words \"Walk and run,\" \"Stand and walk,\" \""
+    },
+    {
+      "bbox": [
+        603,
+        952,
+        720,
+        972
+      ],
+      "type": "printed",
+      "model": "SmolVLM2",
+      "confidence": 0.88,
+      "text": "1"
+    }
+  ],
+  "overall_confidence": 0.88,
+  "preprocessing_metadata": {
+    "skew_angle_deg": 0.0,
+    "original_shape": [
+      1280,
+      720
+    ],
+    "processed_shape": [
+      1280,
+      720
+    ]
+  }
+}
