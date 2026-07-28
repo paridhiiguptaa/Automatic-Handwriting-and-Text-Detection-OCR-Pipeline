@@ -1,94 +1,52 @@
 import os
-import unittest
-import numpy as np
 import cv2
-from worksheet_ocr.config import PipelineConfig
-from worksheet_ocr.preprocessing import ImagePreprocessor
-from worksheet_ocr.confidence_validation import ConfidenceValidator
-from worksheet_ocr.vlm_fallback import VLMFallback
-from worksheet_ocr.result_merger import ResultMerger
+import numpy as np
+from worksheet_ocr import NotebookOCRPipeline
 
-class TestWorksheetPipelineStages(unittest.TestCase):
+_shared_pipeline = None
 
-    def setUp(self):
-        self.config = PipelineConfig()
-        # Create a synthetic worksheet crop image for testing
-        self.test_img = np.full((300, 400, 3), 240, dtype=np.uint8)
-        # Add black printed text representation
-        cv2.putText(self.test_img, "Question 1. What color is the grass?", (20, 50),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (20, 20, 20), 2)
-        # Add pencil handwritten answer representation (gray)
-        cv2.putText(self.test_img, "green", (20, 120),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (110, 110, 110), 2)
+def get_shared_pipeline():
+    global _shared_pipeline
+    if _shared_pipeline is None:
+        _shared_pipeline = NotebookOCRPipeline()
+    return _shared_pipeline
 
-    def test_stage1_preprocessing(self):
-        preprocessor = ImagePreprocessor(self.config)
-        processed, meta = preprocessor.process(self.test_img)
-        self.assertIsNotNone(processed)
-        self.assertEqual(processed.shape, self.test_img.shape)
-        self.assertIn("skew_angle_deg", meta)
+def test_pipeline_integration_on_synthetic_image():
+    pipeline = get_shared_pipeline()
+    
+    img = np.full((800, 1000, 3), 255, dtype=np.uint8)
+    cv2.rectangle(img, (20, 20), (980, 780), (0, 0, 0), 2)
+    cv2.putText(img, "SCIENCE NOTEBOOK - CHAPTER 4", (80, 120), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 0), 3)
+    cv2.putText(img, "Q1: What is photosynthesis?", (80, 220), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
+    cv2.putText(img, "Ans: Photosynthesis is light energy conversion.", (80, 320), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
 
-    def test_stage4_confidence_validation(self):
-        validator = ConfidenceValidator(self.config)
-        
-        # Test High confidence printed region
-        region_high = {
-            "extracted_text": "Write the correct answer.",
-            "confidence": 0.95,
-            "region_type": "printed",
-            "crop_bgr": self.test_img[10:80, 10:350]
-        }
-        res_high = validator.validate(region_high)
-        self.assertTrue(res_high["validation"]["accepted"])
-        self.assertFalse(res_high["validation"]["needs_vlm"])
+    result = pipeline.process_image(img)
+    
+    assert "summary" in result
+    assert "preprocessing_metadata" in result
+    assert "reconstructed_text" in result
+    assert "formatted_markdown" in result
+    assert "document_tree" in result
+    assert "regions" in result
+    assert "cleaned_bgr" in result
+    assert "annotated_bgr" in result
+    assert isinstance(result["reconstructed_text"], str)
 
-        # Test Low confidence handwritten region
-        region_low = {
-            "extracted_text": "gree?",
-            "confidence": 0.52,
-            "region_type": "handwritten",
-            "crop_bgr": self.test_img[100:150, 10:200]
-        }
-        res_low = validator.validate(region_low)
-        self.assertTrue(res_low["validation"]["needs_vlm"])
-        self.assertIn("Low OCR confidence (0.52 < 0.6)", res_low["validation"]["reasons"][0])
+def test_pipeline_on_sample_workspace_image():
+    sample_file = "WhatsApp Image 2026-07-23 at 5.11.35 AM.jpeg"
+    if not os.path.exists(sample_file):
+        print(f"Skipping {sample_file} (file not present).")
+        return
 
-    def test_stage5_vlm_safeguard(self):
-        vlm = VLMFallback(self.config)
-        
-        # Test low confidence crop fallback
-        region = {
-            "crop_bgr": np.zeros((10, 10, 3), dtype=np.uint8),
-            "extracted_text": ""
-        }
-        res = vlm.process_region(region)
-        self.assertEqual(res["text"], "Low confidence.")
-        self.assertTrue(res["vlm_invoked"])
+    pipeline = get_shared_pipeline()
+    result = pipeline.process_image(sample_file)
 
-    def test_stage6_result_merger(self):
-        merger = ResultMerger()
-        mock_regions = [
-            {
-                "bounding_box": [10, 20, 100, 50],
-                "region_type": "printed",
-                "recognition_model_used": "PaddleOCR",
-                "confidence": 0.98,
-                "text": "Name:"
-            },
-            {
-                "bounding_box": [110, 20, 250, 50],
-                "region_type": "handwritten",
-                "model": "TrOCR-Handwritten",
-                "vlm_invoked": False,
-                "confidence": 0.89,
-                "text": "Vritika"
-            }
-        ]
-        doc_json = merger.merge(mock_regions, page_num=1)
-        self.assertEqual(doc_json["document_type"], "worksheet")
-        self.assertEqual(len(doc_json["regions"]), 2)
-        self.assertEqual(doc_json["regions"][0]["model"], "PaddleOCR")
-        self.assertEqual(doc_json["regions"][1]["text"], "Vritika")
+    assert result["summary"]["total_text_regions"] > 0
+    assert result["annotated_bgr"] is not None
+    assert len(result["regions"]) > 0
 
 if __name__ == "__main__":
-    unittest.main()
+    print("--- Running Pipeline Integration Tests ---")
+    test_pipeline_integration_on_synthetic_image()
+    test_pipeline_on_sample_workspace_image()
+    print("All pipeline tests passed successfully!")

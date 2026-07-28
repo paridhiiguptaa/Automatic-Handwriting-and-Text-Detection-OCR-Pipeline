@@ -38,11 +38,12 @@ class VLMFallback:
                 self._vlm_processor = AutoProcessor.from_pretrained(model_id, trust_remote_code=True)
                 self._vlm_model = AutoVLM.from_pretrained(
                     model_id,
-                    dtype=torch.float32,
+                    torch_dtype=torch.float32,
                     low_cpu_mem_usage=True,
                     trust_remote_code=True
                 )
                 self._vlm_model.eval()
+                self._vlm_model.float()
                 self._vlm_model.to(self.config.DEVICE)
             except Exception as e:
                 logger.warning(f"Could not load VLM model ({self.config.VLM_MODEL_NAME}): {e}. Using light heuristic VLM fallback worker.")
